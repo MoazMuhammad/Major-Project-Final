@@ -68,7 +68,7 @@ namespace Major_Project_Final
                 {
                     if (_map[this.mobY - 1][this.mobX] != _map[_player.playerY][_player.playerX])
                     {
-                        this.mobY++;
+                        this.mobY--;
                     }
 
                     else

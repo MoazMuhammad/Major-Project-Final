@@ -188,19 +188,14 @@ namespace Major_Project_Final
                     }
                     Console.Write("\r\n");
                 }
-                Console.WriteLine("Press, up, down, left, right or Q to quit");
+                Console.WriteLine("Press, up, down, left or right to move and Q to quit!");
+                Console.WriteLine("Press 'E' to INTERACT with Chests and Doors and to ATTACK Enemies!");
 
                 // Activating the AI method for Enemies
                 foreach (Enemy e in Enemies)
                 {
                     e.AI(Player, map);
                 }
-
-                /*RenderMap(playerX, playerY, mobX, mobY, map);*/
-
-                // What is under neath me? 
-                tile = map[Player.playerY][Player.playerX];
-                Console.Write($"You are standing on {tile}");
 
                 // Capture user input
                 user_input = Console.ReadKey();
@@ -212,14 +207,13 @@ namespace Major_Project_Final
                         {
                             if (map[Player.playerY - 1][Player.playerX] != '~')
                             {
-                                if (map[Player.playerY - 1][Player.playerX] != map[Enemy1.mobY][Enemy1.mobX])
+                                if (map[Player.playerY - 1][Player.playerX] != 'E')
                                 {
                                     Player.playerY--;
                                 }
 
                                 else
                                 {
-                                    Console.Write("\nPress 'E' to ATTACK the Enemy!");
                                     if (user_input.Key == ConsoleKey.E)
                                     {
                                         Player.Attack();
@@ -233,7 +227,6 @@ namespace Major_Project_Final
 
                         else
                         {
-                            Console.Write("\nPress 'E' to OPEN the Door!");
                             if (user_input.Key == ConsoleKey.E)
                             {
 
@@ -250,13 +243,15 @@ namespace Major_Project_Final
                         {
                             if (map[Player.playerY + 1][Player.playerX] != '~')
                             {
-                                Player.playerY++;
+                                if (map[Player.playerY + 1][Player.playerX] != 'E')
+                                {
+                                    Player.playerY++;
+                                }
                             }
                         }
 
-                        else
+                        else 
                         {
-                            Console.Write("\nPress 'E' to OPEN the Door!");
                         }
                     }
                 }
@@ -273,11 +268,11 @@ namespace Major_Project_Final
                                     Player.playerX++;
                                 }
 
-                                else
+                                else if (map[Player.playerY][Player.playerX + 1] == 'E')
                                 {
-                                    Console.Write("Press 'E' to ATTACK the Enemy!");
                                     if (user_input.Key == ConsoleKey.E)
                                     {
+                                        Enemy1.mobX -= 2;
                                         Player.Attack();
                                     }
                                 }
@@ -286,7 +281,6 @@ namespace Major_Project_Final
 
                         else
                         {
-                            Console.Write("\nPress 'E' to OPEN the Door!");
                         }
                     }
                 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,12 +12,15 @@ namespace Major_Project_Final
         public int chestX;
         public int chestY;
         public List<Chest> chests;
+        public List<Items> storage;
+        public ConsoleKeyInfo user_input;
 
-        public Chest(State _state, int _chestX, int _chestY, List<Chest> _chests)
+        public Chest(State _state, int _chestX, int _chestY, List<Chest> _chests, List<Items> _storage)
         {
             this.chestX = _chestX;
             this.chestY = _chestY;
             this.chests = _chests;
+            this.storage = _storage;
             this.TransitionTo(_state);
 
             chests.Add(this);
@@ -45,6 +48,20 @@ namespace Major_Project_Final
         public void Draw()
         {
             state.Draw();
+        }
+
+        public void OpenChest(ConsoleKeyInfo _user_input)
+        {
+            Console.Clear();
+
+            do
+            {
+                foreach (Items i in storage)
+                {
+                    Console.WriteLine(i.name);
+                }
+
+            } while (_user_input.Key != ConsoleKey.E);
         }
     }
 

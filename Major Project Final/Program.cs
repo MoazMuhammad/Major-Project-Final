@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,31 +62,8 @@ namespace Major_Project_Final
             // Enemies
             Enemy Enemy1 = new Enemy(50, 8, 3, Enemies, 20);
 
-            // Interactables
-            // Doors
-            Door Door1 = new Door(new ClosedDoor(), 9, 2, Doors);
-            Door Door2 = new Door(new ClosedDoor(), 3, 5, Doors);
-            Door Door3 = new Door(new ClosedDoor(), 19, 4, Doors);
-            Door Door4 = new Door(new ClosedDoor(), 49, 7, Doors);
-            Door Door5 = new Door(new ClosedDoor(), 56, 11, Doors);
-            Door Door6 = new Door(new ClosedDoor(), 16, 13, Doors);
-            Door Door7 = new Door(new ClosedDoor(), 32, 17, Doors);
-            Door Door8 = new Door(new ClosedDoor(), 43, 24, Doors);
-            Door Door9 = new Door(new ClosedDoor(), 22, 32, Doors);
-            
-            // Chests
-            Chest Chest1 = new Chest(new ClosedChest(), 1, 1, Chests);
-            Chest Chest2 = new Chest(new ClosedChest(), 1, 14, Chests);
-            Chest Chest3 = new Chest(new ClosedChest(), 28, 9, Chests);
-            Chest Chest4 = new Chest(new ClosedChest(), 56, 14, Chests);
-            Chest Chest5 = new Chest(new ClosedChest(), 1, 25, Chests);
-            Chest Chest6 = new Chest(new ClosedChest(), 1, 32, Chests);
-
-            // I need to know what kind of tile I am standing on. 
-            char tile;
-
             //This path will read a map from your project directory
-            var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, @"C:\Users\PC\OneDrive\Desktop\Canberra College\Programming\Assignments\Major Project Final\Major Project Final\map.txt");
+            var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, @"\\nas125e2.actedu.net.au\studenthome\born2004\09\0083844\my documents\visual studio 2015\Projects\Major Project\Major Project\Map.txt");
             string[] map = File.ReadAllLines(path);
 
             ConsoleKeyInfo user_input;
@@ -96,6 +73,15 @@ namespace Major_Project_Final
             {
                 // Every time I start a loop, clear the screen. 
                 Console.SetCursorPosition(0, 0);
+                user_input = Console.ReadKey();
+
+                for (int y = 0; y < map.Length; y++)
+                {
+                    for(int x = 0; x < map[y].Length; x++)
+                    {
+
+                    }
+                }
 
                 // Renders the map from the string[] map
                 // I wonder if this should be in a function (or even better a Factory?)
@@ -105,67 +91,17 @@ namespace Major_Project_Final
                     for (int x = 0; x < map[y].Length; x++)
                     {
                         // Render Doors
-                        if (x == Door1.doorX && y == Door1.doorY)
+                        if (map[y][x] == '+')
                         {
-                            Door1.Draw();
-                        }
-                        else if (x == Door2.doorX && y == Door2.doorY)
-                        {
-                            Door2.Draw();
-                        }
-                        else if (x == Door3.doorX && y == Door3.doorY)
-                        {
-                            Door3.Draw();
-                        }
-                        else if (x == Door4.doorX && y == Door4.doorY)
-                        {
-                            Door4.Draw();
-                        }
-                        else if (x == Door5.doorX && y == Door5.doorY)
-                        {
-                            Door5.Draw();
-                        }
-                        else if (x == Door6.doorX && y == Door6.doorY)
-                        {
-                            Door6.Draw();
-                        }
-                        else if (x == Door7.doorX && y == Door7.doorY)
-                        {
-                            Door7.Draw();
-                        }
-                        else if (x == Door8.doorX && y == Door8.doorY)
-                        {
-                            Door8.Draw();
-                        }
-                        else if (x == Door9.doorX && y == Door9.doorY)
-                        {
-                            Door9.Draw();
+                            Door d = new Door(new ClosedDoor(), x, y, Doors);
+                            d.Draw();
                         }
 
                         // Render Chests
-                        else if (x == Chest1.chestX && y == Chest1.chestY)
+                        else if (map[y][x] == '~')
                         {
-                            Chest1.Draw();
-                        }
-                        else if (x == Chest2.chestX && y == Chest2.chestY)
-                        {
-                            Chest2.Draw();
-                        }
-                        else if (x == Chest3.chestX && y == Chest3.chestY)
-                        {
-                            Chest3.Draw();
-                        }
-                        else if (x == Chest4.chestX && y == Chest4.chestY)
-                        {
-                            Chest4.Draw();
-                        }
-                        else if (x == Chest5.chestX && y == Chest5.chestY)
-                        {
-                            Chest5.Draw();
-                        }
-                        else if (x == Chest6.chestX && y == Chest6.chestY)
-                        {
-                            Chest6.Draw();
+                            Chest c = new Chest(new ClosedChest(), x, y, Chests); 
+                            c.Draw();
                         }
 
                         // Render Brutes
@@ -177,7 +113,7 @@ namespace Major_Project_Final
                         // Render Player
                         else if (x == Player.playerX && y == Player.playerY)
                         {
-                            Console.Write("@");
+                            Player.Draw();
                         }
 
                         // Render Rest of Map
@@ -198,7 +134,7 @@ namespace Major_Project_Final
                 }
 
                 // Capture user input
-                user_input = Console.ReadKey();
+                
                 if (user_input.Key == ConsoleKey.UpArrow)
                 {
                     if (map[Player.playerY - 1][Player.playerX] != '#')
@@ -233,7 +169,7 @@ namespace Major_Project_Final
                             }
                         }
                     }
-                    
+
                 }
                 else if (user_input.Key == ConsoleKey.DownArrow)
                 {
@@ -250,7 +186,7 @@ namespace Major_Project_Final
                             }
                         }
 
-                        else 
+                        else
                         {
                         }
                     }

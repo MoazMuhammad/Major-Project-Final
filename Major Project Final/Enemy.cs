@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,34 +64,22 @@ namespace Major_Project_Final
             if (deltaY > 0)
             {
                 Console.Write(" North");
-                if (_map[this.mobY - 1][this.mobX] != '#')
+                if (_map[this.mobY + 1][this.mobX] != '#')
                 {
-                    if (_map[this.mobY - 1][this.mobX] != _map[_player.playerY][_player.playerX])
+                    if (_map[this.mobY + 1][this.mobX] != '@')
                     {
-                        this.mobY--;
-                    }
-
-                    else
-                    {
-                        Console.WriteLine("Press 'E' to ATTACK the Enemy!");
-                        this.Attack();
+                        this.mobY++;
                     }
                 }
             }
             else if (deltaY < 0)
             {
                 Console.Write(" South");
-                if (_map[this.mobY + 1][this.mobX] != '#')
+                if (_map[this.mobY - 1][this.mobX] != '#')
                 {
-                    if (_map[this.mobY + 1][this.mobX] != _map[_player.playerY][_player.playerX])
+                    if (_map[this.mobY - 1][this.mobX] != '@')
                     {
-                        this.mobY++;
-                    }
-
-                    else
-                    {
-                        Console.WriteLine("Press 'E' to ATTACK the Enemy!");
-                        this.Attack();
+                        this.mobY--;
                     }
                 }
             }
@@ -105,12 +93,6 @@ namespace Major_Project_Final
                     {
                         this.mobX++;
                     }
-
-                    else
-                    {
-                        Console.WriteLine("Press 'E' to ATTACK the Enemy!");
-                        this.Attack();
-                    }
                 }
             }
             else if (deltaX < 0)
@@ -121,12 +103,6 @@ namespace Major_Project_Final
                     if (_map[this.mobY][this.mobX - 1] != '@')
                     {
                         this.mobX--;
-                    }
-
-                    else
-                    {
-                        Console.WriteLine("Press 'E' to ATTACK the Enemy!");
-                        this.Attack();
                     }
                 }
             }
@@ -139,5 +115,5 @@ namespace Major_Project_Final
             Console.WriteLine("CLIENT: Player attacked Enemy dealing " + this.damage + "damage!");
         }
     }
-    
+
 }

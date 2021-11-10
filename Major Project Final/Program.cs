@@ -38,6 +38,14 @@ namespace Major_Project_Final
     {
         static void Main(string[] args)
         {
+            // Player Inventory List
+            List<Items> Inventory = new List<Items>();
+
+            // Chest Storage List
+            List<Items> ChestStorage = new List<Items>();
+            ChestStorage.Add(new HealingPotion("Healing Potion"));
+            ChestStorage.Add(new HealingPotion("Healing Potion"));
+                
             // Enemies List
             List<Enemy> Enemies = new List<Enemy>();
 
@@ -49,8 +57,9 @@ namespace Major_Project_Final
 
             // Potions
             Potions Potions = new Potions("Potions");
-            Potions.Add(new HealingPotion("Healing Potion"));
-            Potions.Add(new SpeedPotion("Speed Potion"));
+
+            Inventory.Add(new HealingPotion("Healing Potion"));
+            Inventory.Add(new SpeedPotion("Speed Potion"));
 
             // Weapons
             Client client = new Client();
@@ -62,8 +71,11 @@ namespace Major_Project_Final
             // Enemies
             Enemy Enemy1 = new Enemy(50, 8, 3, Enemies, 20);
 
-            //This path will read a map from your project directory
-            var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, @"\\nas125e2.actedu.net.au\studenthome\born2004\09\0083844\my documents\visual studio 2015\Projects\Major Project\Major Project\Map.txt");
+            //This path will read a map from your project directory//
+            // School
+            // var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, @"\\nas125e2.actedu.net.au\studenthome\born2004\09\0083844\my documents\visual studio 2015\Projects\Major Project\Major Project\Map.txt");
+            // Home
+            var path = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName, @"C:\Users\PC\OneDrive\Desktop\Canberra College\Programming\Assignments\Major Project Final\Major Project Final\map.txt");
             string[] map = File.ReadAllLines(path);
 
             ConsoleKeyInfo user_input;
@@ -73,15 +85,6 @@ namespace Major_Project_Final
             {
                 // Every time I start a loop, clear the screen. 
                 Console.SetCursorPosition(0, 0);
-                user_input = Console.ReadKey();
-
-                for (int y = 0; y < map.Length; y++)
-                {
-                    for(int x = 0; x < map[y].Length; x++)
-                    {
-
-                    }
-                }
 
                 // Renders the map from the string[] map
                 // I wonder if this should be in a function (or even better a Factory?)
@@ -100,11 +103,11 @@ namespace Major_Project_Final
                         // Render Chests
                         else if (map[y][x] == '~')
                         {
-                            Chest c = new Chest(new ClosedChest(), x, y, Chests); 
+                            Chest c = new Chest(new ClosedChest(), x, y, Chests, ChestStorage);
                             c.Draw();
                         }
 
-                        // Render Brutes
+                        // Render Enemies
                         else if (x == Enemy1.mobX && y == Enemy1.mobY)
                         {
                             Enemy1.Draw();
@@ -127,114 +130,105 @@ namespace Major_Project_Final
                 Console.WriteLine("Press, up, down, left or right to move and Q to quit!");
                 Console.WriteLine("Press 'E' to INTERACT with Chests and Doors and to ATTACK Enemies!");
 
-                // Activating the AI method for Enemies
+                // Interaction with Enemies
                 foreach (Enemy e in Enemies)
                 {
+                    // Activating the AI method for Enemies
                     e.AI(Player, map);
                 }
 
                 // Capture user input
+                user_input = Console.ReadKey();
                 
-                if (user_input.Key == ConsoleKey.UpArrow)
+                // Inventory
+                if (user_input.Key == ConsoleKey.I)
                 {
-                    if (map[Player.playerY - 1][Player.playerX] != '#')
+                    Menu.Inventory(Inventory, user_input);
+                }
+
+                // Movement 
+                // Move Up
+                else if (user_input.Key == ConsoleKey.UpArrow)
+                {
+                    if (map[Player.playerY - 1][Player.playerX] != '#' && map[Player.playerY - 1][Player.playerX] != 'E' && map[Player.playerY - 1][Player.playerX] != '+' && map[Player.playerY - 1][Player.playerX] != '~')
                     {
-                        if (map[Player.playerY - 1][Player.playerX] != '+')
-                        {
-                            if (map[Player.playerY - 1][Player.playerX] != '~')
-                            {
-                                if (map[Player.playerY - 1][Player.playerX] != 'E')
-                                {
-                                    Player.playerY--;
-                                }
-
-                                else
-                                {
-                                    if (user_input.Key == ConsoleKey.E)
-                                    {
-                                        Player.Attack();
-                                        Console.WriteLine(Enemy1.health);
-                                        Enemy1.health -= Player.sword.damage;
-                                        Console.WriteLine(Enemy1.health);
-                                    }
-                                }
-                            }
-                        }
-
-                        else
-                        {
-                            if (user_input.Key == ConsoleKey.E)
-                            {
-
-                            }
-                        }
+                        Player.playerY--;
                     }
 
+                    else if (map[Player.playerY - 1][Player.playerX] != '-')
+                    {
+                        Player.playerY--;
+                    }
                 }
+
+                // Move Down
                 else if (user_input.Key == ConsoleKey.DownArrow)
                 {
-                    if (map[Player.playerY + 1][Player.playerX] != '#')
+                    if (map[Player.playerY + 1][Player.playerX] != '#' && map[Player.playerY + 1][Player.playerX] != 'E' && map[Player.playerY + 1][Player.playerX] != '+' && map[Player.playerY + 1][Player.playerX] != '~')
                     {
-                        if (map[Player.playerY + 1][Player.playerX] != '+')
-                        {
-                            if (map[Player.playerY + 1][Player.playerX] != '~')
-                            {
-                                if (map[Player.playerY + 1][Player.playerX] != 'E')
-                                {
-                                    Player.playerY++;
-                                }
-                            }
-                        }
+                        Player.playerY++;
+                    }
 
-                        else
-                        {
-                        }
+                    else if (map[Player.playerY + 1][Player.playerX] != '-')
+                    {
+                        Player.playerY++;
                     }
                 }
+
+                // Move Right
                 else if (user_input.Key == ConsoleKey.RightArrow)
                 {
-                    if (map[Player.playerY][Player.playerX + 1] != '#')
+                    if (map[Player.playerY][Player.playerX + 1] != '#' && map[Player.playerY][Player.playerX + 1] != 'E' && map[Player.playerY][Player.playerX + 1] != '+' && map[Player.playerY][Player.playerX + 1] != '~')
                     {
-                        if (map[Player.playerY][Player.playerX + 1] != '+')
-                        {
-                            if (map[Player.playerY][Player.playerX + 1] != '~')
-                            {
-                                if (map[Player.playerY][Player.playerX + 1] != 'E')
-                                {
-                                    Player.playerX++;
-                                }
+                        Player.playerX++;
+                    }
 
-                                else if (map[Player.playerY][Player.playerX + 1] == 'E')
-                                {
-                                    if (user_input.Key == ConsoleKey.E)
-                                    {
-                                        Enemy1.mobX -= 2;
-                                        Player.Attack();
-                                    }
-                                }
-                            }
-                        }
-
-                        else
-                        {
-                        }
+                    else if (map[Player.playerY][Player.playerX + 1] != '-')
+                    {
+                        Player.playerX--;
                     }
                 }
+
+                // Move Left
                 else if (user_input.Key == ConsoleKey.LeftArrow)
                 {
-                    if (map[Player.playerY][Player.playerX - 1] != '#')
+                    // Collision Detection
+                    if (map[Player.playerY][Player.playerX - 1] != '#' && map[Player.playerY][Player.playerX - 1] != 'E' && map[Player.playerY][Player.playerX - 1] != '+' && map[Player.playerY][Player.playerX - 1] != '~')
                     {
-                        if (map[Player.playerY][Player.playerX - 1] != '+')
-                        {
-                            if (map[Player.playerY][Player.playerX - 1] != '~')
-                            {
-                                Player.playerX--;
-                            }
-                        }
+                        Player.playerX--;
+                    }
 
-                        else
+                    else if (map[Player.playerY][Player.playerX - 1] != '-')
+                    {
+                        Player.playerX--;
+                    }
+                }
+
+                // Interaction with Doors
+                foreach (Door d in Doors)
+                {
+                    // If Player is South of Door
+                    if (map[Player.playerY - 1][Player.playerX] == map[d.doorY][d.doorX])
+                    {
+                        d.Request1();
+                    }
+
+                    // If Player is North of Door
+                    else if (map[Player.playerY + 1][Player.playerX] == map[d.doorY][d.doorX])
+                    {
+                        d.Request1();
+                    }
+                }
+
+                // Intercation with Chests
+                foreach (Chest c in Chests)
+                {
+                    // If Player is South of Chest
+                    if (map[Player.playerY - 1][Player.playerX] == map[c.chestY][c.chestX])
+                    {
+                        if (user_input.Key == ConsoleKey.E)
                         {
-                            Console.Write("\nPress 'E' to OPEN the Door!");
+                            c.OpenChest(user_input);
                         }
                     }
                 }

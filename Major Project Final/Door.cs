@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Major_Project_Final
+namespace Major_Project
 {
     public class Door
     {
@@ -13,7 +13,7 @@ namespace Major_Project_Final
         public int doorY;
         public List<Door> doors;
         ConsoleKeyInfo user_input;
-        Player player;
+        Player Player;
         string[] map;
 
         public Door(State _state, int _doorX, int _doorY, List<Door> _doors)
@@ -48,6 +48,41 @@ namespace Major_Project_Final
         public void Draw()
         {
             state.Draw();
+        }
+
+        public void ToggleDoor(Player _player, string[] _map, ConsoleKeyInfo _user_input)
+        {
+            this.map = _map;
+            this.Player = _player;
+            this.user_input = _user_input;
+
+            // If Player North of Door
+            if (map[Player.playerY + 1][Player.playerX] == '+' && user_input.Key == ConsoleKey.E)
+            {
+                Console.WriteLine("\nPress 'E' to Open Door");
+                this.Request1();
+            }
+
+            // If Player South of Door
+            else if (map[Player.playerY - 1][Player.playerX] == '+' && user_input.Key == ConsoleKey.E)
+            {
+                Console.WriteLine("\nPress 'E' to Open Door");
+                this.Request1();
+            }
+
+            // If player West of Door
+            else if (map[Player.playerY][Player.playerX + 1] == '+' && user_input.Key == ConsoleKey.E)
+            {
+                Console.WriteLine("\nPress 'E' to Open Door");
+                this.Request1();
+            }
+
+            // If player East of Door
+            else if (map[Player.playerY][Player.playerX - 1] == '+' && user_input.Key == ConsoleKey.E)
+            {
+                Console.WriteLine("\nPress 'E' to Open Door");
+                this.Request1();
+            }
         }
     }
 
